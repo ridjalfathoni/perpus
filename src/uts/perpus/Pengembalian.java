@@ -8,24 +8,25 @@ package uts.perpus;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.MessageFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import sun.util.logging.PlatformLogger;
 
 /**
  *
  * @author Ridjal Fathoni
  */
-public class mainFrame extends javax.swing.JFrame {
+public class Pengembalian extends javax.swing.JFrame {
 
     /**
      * Creates new form mainFrame
      */
-    public mainFrame() {
+    public Pengembalian() {
         initComponents();
     }
 
@@ -41,25 +42,30 @@ public class mainFrame extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel2 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        tbJudul = new javax.swing.JTextField();
+        tbDenda = new javax.swing.JTextField();
         tbNo = new javax.swing.JTextField();
         tbNama = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbAlamat = new javax.swing.JTextArea();
-        rbBaru = new javax.swing.JRadioButton();
-        rbLama = new javax.swing.JRadioButton();
         tgl_pinjam = new com.toedter.calendar.JDateChooser();
+        cbJenis = new javax.swing.JComboBox<>();
+        jLabel12 = new javax.swing.JLabel();
         tgl_kembali = new com.toedter.calendar.JDateChooser();
+        jLabel13 = new javax.swing.JLabel();
+        tbJudul = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        rdT = new javax.swing.JRadioButton();
+        rdB = new javax.swing.JRadioButton();
         jPanel3 = new javax.swing.JPanel();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel9 = new javax.swing.JLabel();
@@ -70,6 +76,7 @@ public class mainFrame extends javax.swing.JFrame {
         btSave = new javax.swing.JButton();
         btClear = new javax.swing.JButton();
         btDelete = new javax.swing.JButton();
+        btRefresh = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -77,10 +84,16 @@ public class mainFrame extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(153, 153, 153));
         jPanel2.setLayout(null);
 
-        jLabel10.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Bebas", 0, 18)); // NOI18N
         jLabel10.setText("PERPUSTAKAAN");
         jPanel2.add(jLabel10);
-        jLabel10.setBounds(10, 30, 530, 30);
+        jLabel10.setBounds(10, 0, 530, 30);
+
+        jLabel11.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel11.setFont(new java.awt.Font("Bebas", 0, 18)); // NOI18N
+        jLabel11.setText("PEngembalian BUKU ");
+        jPanel2.add(jLabel11);
+        jLabel11.setBounds(10, 60, 230, 30);
 
         getContentPane().add(jPanel2);
         jPanel2.setBounds(0, 0, 930, 100);
@@ -95,11 +108,6 @@ public class mainFrame extends javax.swing.JFrame {
         jLabel1.setText("FORM ISI DATA");
         jPanel1.add(jLabel1);
         jLabel1.setBounds(10, 4, 100, 20);
-
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("TANGGAL KEMBALI");
-        jPanel1.add(jLabel2);
-        jLabel2.setBounds(10, 410, 260, 20);
 
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("NO ANGGOTA");
@@ -124,14 +132,14 @@ public class mainFrame extends javax.swing.JFrame {
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("JUDUL BUKU");
         jPanel1.add(jLabel7);
-        jLabel7.setBounds(10, 310, 260, 20);
+        jLabel7.setBounds(10, 320, 260, 20);
 
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("TANGGAL PINJAM");
         jPanel1.add(jLabel8);
-        jLabel8.setBounds(10, 360, 260, 20);
-        jPanel1.add(tbJudul);
-        tbJudul.setBounds(10, 330, 240, 30);
+        jLabel8.setBounds(10, 370, 260, 20);
+        jPanel1.add(tbDenda);
+        tbDenda.setBounds(10, 490, 240, 30);
         jPanel1.add(tbNo);
         tbNo.setBounds(10, 60, 240, 30);
         jPanel1.add(tbNama);
@@ -143,27 +151,46 @@ public class mainFrame extends javax.swing.JFrame {
 
         jPanel1.add(jScrollPane2);
         jScrollPane2.setBounds(10, 160, 240, 110);
-
-        rbBaru.setBackground(null);
-        buttonGroup1.add(rbBaru);
-        rbBaru.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        rbBaru.setText("Buku Baru");
-        jPanel1.add(rbBaru);
-        rbBaru.setBounds(10, 290, 89, 23);
-
-        rbLama.setBackground(null);
-        buttonGroup1.add(rbLama);
-        rbLama.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        rbLama.setText("Buku Lama");
-        jPanel1.add(rbLama);
-        rbLama.setBounds(120, 290, 93, 23);
         jPanel1.add(tgl_pinjam);
-        tgl_pinjam.setBounds(10, 380, 240, 30);
+        tgl_pinjam.setBounds(10, 390, 240, 30);
+
+        cbJenis.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--", "Buku Biografi", "Buku Sejarah", "Buku Novel", "Buku Sekolah" }));
+        jPanel1.add(cbJenis);
+        cbJenis.setBounds(10, 290, 240, 30);
+
+        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel12.setText("DENDA");
+        jPanel1.add(jLabel12);
+        jLabel12.setBounds(10, 470, 260, 20);
         jPanel1.add(tgl_kembali);
-        tgl_kembali.setBounds(10, 430, 240, 30);
+        tgl_kembali.setBounds(10, 440, 240, 30);
+
+        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel13.setText("TANGGAL KEMBALI");
+        jPanel1.add(jLabel13);
+        jLabel13.setBounds(10, 420, 260, 20);
+        jPanel1.add(tbJudul);
+        tbJudul.setBounds(10, 340, 240, 30);
+
+        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel14.setText("STATUS");
+        jPanel1.add(jLabel14);
+        jLabel14.setBounds(10, 520, 260, 20);
+
+        rdT.setBackground(null);
+        buttonGroup1.add(rdT);
+        rdT.setText("Tepat Waktu");
+        jPanel1.add(rdT);
+        rdT.setBounds(10, 540, 87, 23);
+
+        rdB.setBackground(null);
+        buttonGroup1.add(rdB);
+        rdB.setText("Lewat Batas");
+        jPanel1.add(rdB);
+        rdB.setBounds(130, 540, 85, 23);
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 110, 260, 490);
+        jPanel1.setBounds(0, 110, 260, 590);
 
         jPanel3.setBackground(new java.awt.Color(153, 153, 153));
         jPanel3.setLayout(null);
@@ -177,22 +204,27 @@ public class mainFrame extends javax.swing.JFrame {
 
         tblData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "No Anggota", "NAMA PEMINJAM", "ALAMAT PEMINJAM", "JENIS BUKU", "JUDUL BUKU", "TANGGAL PINJAM", "TANGGAL KEMBALI"
+                "No Anggota", "NAMA PEMINJAM", "ALAMAT PEMINJAM", "JENIS BUKU", "JUDUL BUKU", "TANGGAL PINJAM", "TANGGAL KEMBALI", "Denda", "Status"
             }
         ));
+        tblData.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblDataMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblData);
 
         jPanel3.add(jScrollPane1);
-        jScrollPane1.setBounds(10, 40, 620, 370);
+        jScrollPane1.setBounds(10, 40, 620, 470);
 
         getContentPane().add(jPanel3);
-        jPanel3.setBounds(270, 170, 650, 440);
+        jPanel3.setBounds(270, 170, 650, 530);
 
         jPanel4.setBackground(new java.awt.Color(204, 204, 204));
         jPanel4.setLayout(null);
@@ -222,7 +254,7 @@ public class mainFrame extends javax.swing.JFrame {
             }
         });
         jPanel4.add(btClear);
-        btClear.setBounds(180, 10, 100, 30);
+        btClear.setBounds(140, 10, 100, 30);
 
         btDelete.setText("Delete");
         btDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -231,37 +263,45 @@ public class mainFrame extends javax.swing.JFrame {
             }
         });
         jPanel4.add(btDelete);
-        btDelete.setBounds(350, 10, 100, 30);
+        btDelete.setBounds(270, 10, 100, 30);
+
+        btRefresh.setText("Refresh");
+        btRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btRefreshActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btRefresh);
+        btRefresh.setBounds(400, 10, 100, 30);
 
         getContentPane().add(jPanel4);
         jPanel4.setBounds(270, 110, 640, 50);
 
-        setSize(new java.awt.Dimension(928, 634));
+        setSize(new java.awt.Dimension(928, 728));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveActionPerformed
-        SimpleDateFormat dateformat = new SimpleDateFormat("yyy-MM-dd");
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
         String tgl1 = dateformat.format(tgl_pinjam.getDate());
         String tgl2 = dateformat.format(tgl_kembali.getDate());
-        String Jenis;
-        if(rbBaru.isSelected())
-        {
-            Jenis = "Buku Baru";
+        String Jenis = (String)cbJenis.getSelectedItem();
+        String ST = "";
+        if (rdT.isSelected()) {
+            ST = "Tepat Waktu";
+        } else {
+            ST = "Lewat Batas";
         }
-        else {
-            Jenis = "Buku Lama";
-        }
-        
+                
         if ("".equals(tbNo.getText()) || "".equals(tbNama.getText()) || 
             "".equals(tbAlamat.getText()) || Jenis.equals("") || "".equals(tbJudul.getText()) ||
-            tgl1.equals("") || tgl2.equals("")) {
+                tgl1.equals("") || tgl2.equals("") || "".equals(tbDenda.getText()) || ST.equals("")) {
             JOptionPane.showMessageDialog(this, "Harap Lengkapi Data","Error",
             JOptionPane.WARNING_MESSAGE);
         } else {
-            String SQL ="INSERT INTO tb_peminjam(no,nama,alamat,jenis,judul,tgl_pinjam,tgl_kembali)" +
+            String SQL ="INSERT INTO tb_peminjam(no,nama,alamat,jenis,judul,tgl_pinjam,tgl_kembali,Denda,Status)" +
                         "VALUES('"+tbNo.getText()+"','"+tbNama.getText()+"','"+tbAlamat.getText()+"','"+Jenis+"','"+tbJudul.getText()+"',"
-                            + "'"+tgl1+"','"+tgl2+"')";
+                            + "'"+tgl1+"','"+tgl2+"','"+tbDenda.getText()+"','"+ST+"')";
         int status = KoneksiDB.execute(SQL);
             if (status == 1) {
                 JOptionPane.showMessageDialog(this, "Data berhasil ditambahkan", "Sukses", JOptionPane.INFORMATION_MESSAGE);
@@ -277,10 +317,12 @@ public class mainFrame extends javax.swing.JFrame {
         tbNo.setText("");
         tbNama.setText("");
         tbAlamat.setText("");
-        buttonGroup1.clearSelection();
+        cbJenis.setSelectedItem("--");
         tbJudul.setText("");
         tgl_pinjam.setDateFormatString("");
         tgl_kembali.setDateFormatString("");
+        tbDenda.setText("");
+        buttonGroup1.clearSelection();
     }//GEN-LAST:event_btClearActionPerformed
 
     private void btDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeleteActionPerformed
@@ -311,6 +353,38 @@ public class mainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btPrintActionPerformed
 
+    private void btRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRefreshActionPerformed
+        selectData();
+    }//GEN-LAST:event_btRefreshActionPerformed
+
+    private void tblDataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDataMouseClicked
+        int baris = tblData.getSelectedRow();
+        if(baris != -1) {
+            tbNo.setText(tblData.getValueAt(baris, 0).toString());
+            tbNama.setText(tblData.getValueAt(baris, 1).toString());
+            tbAlamat.setText(tblData.getValueAt(baris,2 ).toString());
+            cbJenis.setSelectedItem(tblData.getValueAt(baris, 3).toString());
+            tbJudul.setText(tblData.getValueAt(baris, 4).toString());
+            SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+            Date tgl1 = null;
+            Date tgl2 = null;
+            try {
+                tgl1 = date.parse(tblData.getValueAt(baris, 5).toString());
+                tgl2 = date.parse(tblData.getValueAt(baris, 6).toString());
+            } catch (ParseException ex) {
+                Logger.getLogger(Pengembalian.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            tgl_pinjam.setDate(tgl1);
+            tgl_kembali.setDate(tgl2);
+            tbDenda.setText(tblData.getValueAt(baris, 7).toString());
+            if("Tepat Waktu".equals(tblData.getValueAt(baris, 8).toString())){
+                rdT.setSelected(true);
+            } else {
+                rdB.setSelected(true);
+            }
+        }
+    }//GEN-LAST:event_tblDataMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -328,20 +402,23 @@ public class mainFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(mainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Pengembalian.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(mainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Pengembalian.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(mainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Pengembalian.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(mainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Pengembalian.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new mainFrame().setVisible(true);
+                new Pengembalian().setVisible(true);
             }
         });
     }
@@ -350,11 +427,16 @@ public class mainFrame extends javax.swing.JFrame {
     private javax.swing.JButton btClear;
     private javax.swing.JButton btDelete;
     private javax.swing.JButton btPrint;
+    private javax.swing.JButton btRefresh;
     private javax.swing.JButton btSave;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JComboBox<String> cbJenis;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -370,9 +452,10 @@ public class mainFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JRadioButton rbBaru;
-    private javax.swing.JRadioButton rbLama;
+    private javax.swing.JRadioButton rdB;
+    private javax.swing.JRadioButton rdT;
     private javax.swing.JTextArea tbAlamat;
+    private javax.swing.JTextField tbDenda;
     private javax.swing.JTextField tbJudul;
     private javax.swing.JTextField tbNama;
     private javax.swing.JTextField tbNo;
@@ -382,7 +465,7 @@ public class mainFrame extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void selectData() {
-        String kolom[] = {"no","nama","alamat","jenis","judul","tgl_pinjam","tgl_kembali"};
+        String kolom[] = {"no","nama","alamat","jenis","judul","tgl_pinjam","tgl_kembali","Denda","Status"};
         DefaultTableModel dtm = new DefaultTableModel(null, kolom);
         String SQL = "SELECT * FROM tb_peminjam";
         ResultSet rs = KoneksiDB.executeQuery(SQL);
@@ -391,20 +474,22 @@ public class mainFrame extends javax.swing.JFrame {
                 String NO = rs.getString(1);
                 String Nama = rs.getString(2);
                 String Alamat = rs.getString(3);
-                String Jenis = "";
-                if ("Buku Baru".equals(rs.getString(4))) {
-                    Jenis = "Buku Baru";
-                } else {
-                    Jenis = "BukuLama";
-                }
+                String Jenis = rs.getString(4);
                 String Judul = rs.getString(5);
                 String Tgl1 = rs.getString(6);
                 String Tgl2 = rs.getString(7);
-                String data[] = {NO,Nama,Alamat,Jenis,Judul,Tgl1,Tgl2};
+                String Denda = rs.getString(8);
+                String Status = "";
+                if ("Tepat Waktu".equals(rs.getString(9))) {
+                    Status = "Tepat Waktu";
+                } else {
+                    Status = "Lewat Batas";
+                }
+                String data[] = {NO,Nama,Alamat,Jenis,Judul,Tgl1,Tgl2,Denda,Status};
                 dtm.addRow(data);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Pengembalian.class.getName()).log(Level.SEVERE, null, ex);
         }
         tblData.setModel(dtm);
     }
