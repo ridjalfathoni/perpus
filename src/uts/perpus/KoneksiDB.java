@@ -18,12 +18,12 @@ import java.util.logging.Logger;
  * @author Ridjal Fathoni
  */
 public class KoneksiDB {
-    public static Connection setKoneksi() {
+    public static Connection setKoneksi(){
         String konString = "jdbc:mysql://localhost:3306/db_perpus";
-        Connection koneksi = null;
+        com.mysql.jdbc.Connection koneksi = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            koneksi = (Connection) DriverManager.getConnection(konString,"root","");
+            koneksi = (com.mysql.jdbc.Connection) DriverManager.getConnection(konString,"root","");
             System.out.println("Koneksi Berhasil");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(KoneksiDB.class.getName()).log(Level.SEVERE,
@@ -63,5 +63,4 @@ public class KoneksiDB {
     static Object GetConnection() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
 }

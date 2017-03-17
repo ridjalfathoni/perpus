@@ -5,8 +5,16 @@
  */
 package uts.perpus;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import sun.util.logging.PlatformLogger;
 
 /**
  *
@@ -56,7 +64,7 @@ public class mainFrame extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JSeparator();
         jLabel9 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblData = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         btPrint = new javax.swing.JButton();
         btSave = new javax.swing.JButton();
@@ -167,7 +175,7 @@ public class mainFrame extends javax.swing.JFrame {
         jPanel3.add(jLabel9);
         jLabel9.setBounds(10, 10, 31, 14);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -178,7 +186,7 @@ public class mainFrame extends javax.swing.JFrame {
                 "No Anggota", "NAMA PEMINJAM", "ALAMAT PEMINJAM", "JENIS BUKU", "JUDUL BUKU", "TANGGAL PINJAM", "TANGGAL KEMBALI"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblData);
 
         jPanel3.add(jScrollPane1);
         jScrollPane1.setBounds(10, 40, 620, 370);
@@ -203,6 +211,11 @@ public class mainFrame extends javax.swing.JFrame {
         btSave.setBounds(10, 10, 100, 30);
 
         btClear.setText("Clear");
+        btClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btClearActionPerformed(evt);
+            }
+        });
         jPanel4.add(btClear);
         btClear.setBounds(180, 10, 100, 30);
 
@@ -240,7 +253,25 @@ public class mainFrame extends javax.swing.JFrame {
                         "VALUES('"+tbNo.getText()+"','"+tbNama.getText()+"','"+tbAlamat.getText()+"','"+Jenis+"','"+tbJudul.getText()+"',"
                             + "'"+tgl1+"','"+tgl2+"')";
         }
+        int status = KoneksiDB.execute(SQL);
+            if (status == 1) {
+                JOptionPane.showMessageDialog(this, "Data berhasil ditambahkan", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+                selectData();
+            } else {
+                JOptionPane.showMessageDialog(this, "Data gagal ditambahkan", "Gagal", JOptionPane.WARNING_MESSAGE);
+            }
     }//GEN-LAST:event_btSaveActionPerformed
+
+    private void btClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btClearActionPerformed
+       
+        tbNo.setText("");
+        tbNama.setText("");
+        tbAlamat.setText("");
+        buttonGroup1.clearSelection();
+        tbJudul.setText("");
+        tgl_pinjam.cleanup();
+        tgl_kembali.cleanup();
+    }//GEN-LAST:event_btClearActionPerformed
 
     /**
      * @param args the command line arguments
@@ -301,14 +332,42 @@ public class mainFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JRadioButton rbBaru;
     private javax.swing.JRadioButton rbLama;
     private javax.swing.JTextArea tbAlamat;
     private javax.swing.JTextField tbJudul;
     private javax.swing.JTextField tbNama;
     private javax.swing.JTextField tbNo;
+    private javax.swing.JTable tblData;
     private com.toedter.calendar.JDateChooser tgl_kembali;
     private com.toedter.calendar.JDateChooser tgl_pinjam;
     // End of variables declaration//GEN-END:variables
+
+    private void selectData() {
+        String kolom[] = {"no","nama","alamat","jenis","judul","tgl_pinjam","tgl_kembali"};
+        DefaultTableModel dtm = new DefaultTableModel(null, kolom);
+        String SQL = "SELECT * FROM tb_peminjam";
+        ResultSet rs = KoneksiDB.executeQuery(SQL);
+        try {
+            while(rs.next()) {
+                String NO = rs.getString(1);
+                String Nama = rs.getString(2);
+                String Alamat = rs.getString(3);
+                String Jenis = "";
+                if ("Buku Baru".equals(rs.getString(4))) {
+                    Jenis = "Buku Baru";
+                } else {
+                    Jenis = "BukuLama";
+                }
+                String Judul = rs.getString(5);
+                String Tgl1 = rs.getString(6);
+                String Tgl2 = rs.getString(7);
+                String data[] = {NO,Nama,Alamat,Jenis,Judul,Tgl1,Tgl2};
+                dtm.addRow(data);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        tblData.setModel(dtm);
+    }
 }
