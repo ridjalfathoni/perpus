@@ -6,6 +6,7 @@
 package uts.perpus;
 
 import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -218,7 +219,27 @@ public class mainFrame extends javax.swing.JFrame {
 
     private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveActionPerformed
         SimpleDateFormat dateformat = new SimpleDateFormat("yyy-MM-dd");
-        String tgl = 
+        String tgl1 = dateformat.format(tgl_pinjam.getDate());
+        String tgl2 = dateformat.format(tgl_kembali.getDate());
+        String Jenis;
+        if(rbBaru.isSelected())
+        {
+            Jenis = "Buku Baru";
+        }
+        else {
+            Jenis = "Buku Lama";
+        }
+        
+        if ("".equals(tbNo.getText()) || "".equals(tbNama.getText()) || 
+            "".equals(tbAlamat.getText()) || Jenis.equals("") || "".equals(tbJudul.getText()) ||
+            tgl1.equals("") || tgl2.equals("")) {
+            JOptionPane.showMessageDialog(this, "Harap Lengkapi Data","Error",
+            JOptionPane.WARNING_MESSAGE);
+        } else {
+            String SQL ="INSERT INTO tb_peminjam(no,nama,alamat,jenis,judul,tgl_pinjam,tgl_kembali)" +
+                        "VALUES('"+tbNo.getText()+"','"+tbNama.getText()+"','"+tbAlamat.getText()+"','"+Jenis+"','"+tbJudul.getText()+"',"
+                            + "'"+tgl1+"','"+tgl2+"')";
+        }
     }//GEN-LAST:event_btSaveActionPerformed
 
     /**
