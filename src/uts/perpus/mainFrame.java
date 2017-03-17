@@ -198,6 +198,11 @@ public class mainFrame extends javax.swing.JFrame {
         jPanel4.setLayout(null);
 
         btPrint.setText("Print");
+        btPrint.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btPrintActionPerformed(evt);
+            }
+        });
         jPanel4.add(btPrint);
         btPrint.setBounds(530, 10, 100, 30);
 
@@ -220,6 +225,11 @@ public class mainFrame extends javax.swing.JFrame {
         btClear.setBounds(180, 10, 100, 30);
 
         btDelete.setText("Delete");
+        btDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btDeleteActionPerformed(evt);
+            }
+        });
         jPanel4.add(btDelete);
         btDelete.setBounds(350, 10, 100, 30);
 
@@ -252,7 +262,6 @@ public class mainFrame extends javax.swing.JFrame {
             String SQL ="INSERT INTO tb_peminjam(no,nama,alamat,jenis,judul,tgl_pinjam,tgl_kembali)" +
                         "VALUES('"+tbNo.getText()+"','"+tbNama.getText()+"','"+tbAlamat.getText()+"','"+Jenis+"','"+tbJudul.getText()+"',"
                             + "'"+tgl1+"','"+tgl2+"')";
-        }
         int status = KoneksiDB.execute(SQL);
             if (status == 1) {
                 JOptionPane.showMessageDialog(this, "Data berhasil ditambahkan", "Sukses", JOptionPane.INFORMATION_MESSAGE);
@@ -260,6 +269,7 @@ public class mainFrame extends javax.swing.JFrame {
             } else {
                 JOptionPane.showMessageDialog(this, "Data gagal ditambahkan", "Gagal", JOptionPane.WARNING_MESSAGE);
             }
+        }
     }//GEN-LAST:event_btSaveActionPerformed
 
     private void btClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btClearActionPerformed
@@ -269,9 +279,37 @@ public class mainFrame extends javax.swing.JFrame {
         tbAlamat.setText("");
         buttonGroup1.clearSelection();
         tbJudul.setText("");
-        tgl_pinjam.cleanup();
-        tgl_kembali.cleanup();
+        tgl_pinjam.setDateFormatString("");
+        tgl_kembali.setDateFormatString("");
     }//GEN-LAST:event_btClearActionPerformed
+
+    private void btDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeleteActionPerformed
+        int baris = tblData.getSelectedRow();
+        if (baris != - 1) {
+            String NO = tblData.getValueAt(baris, 0).toString();
+            String SQL = "DELETE FROM tb_peminjam WHERE no='"+NO+"'";
+            int status = KoneksiDB.execute(SQL);
+            if (status==1) {
+                JOptionPane.showMessageDialog(this, "Data Berhasil Dihapus", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Data Gagal Dihapus", "Gagal", JOptionPane.WARNING_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Pilih Baris Data Terebih Dahulu", "Error", JOptionPane.WARNING_MESSAGE);
+        }
+        
+        selectData();                                       
+    }//GEN-LAST:event_btDeleteActionPerformed
+
+    private void btPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPrintActionPerformed
+        MessageFormat header = new MessageFormat("Data Peminjaman Buku");
+        MessageFormat footer = new MessageFormat("Page (0,number,integer)     ");
+        try {
+            tblData.print(JTable.PrintMode.FIT_WIDTH, header, footer, true, null, true, null);
+        } catch (java.awt.print.PrinterException e) {
+            System.err.format("Cannot print %s%n", e.getMessage());
+        }
+    }//GEN-LAST:event_btPrintActionPerformed
 
     /**
      * @param args the command line arguments
