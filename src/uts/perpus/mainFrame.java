@@ -5,6 +5,8 @@
  */
 package uts.perpus;
 
+import java.text.SimpleDateFormat;
+
 /**
  *
  * @author Ridjal Fathoni
@@ -40,25 +42,25 @@ public class mainFrame extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        tbJudul = new javax.swing.JTextField();
+        tbNo = new javax.swing.JTextField();
+        tbNama = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        tbAlamat = new javax.swing.JTextArea();
+        rbBaru = new javax.swing.JRadioButton();
+        rbLama = new javax.swing.JRadioButton();
+        tgl_pinjam = new com.toedter.calendar.JDateChooser();
+        tgl_kembali = new com.toedter.calendar.JDateChooser();
         jPanel3 = new javax.swing.JPanel();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel9 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btPrint = new javax.swing.JButton();
+        btSave = new javax.swing.JButton();
+        btClear = new javax.swing.JButton();
+        btDelete = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -119,37 +121,37 @@ public class mainFrame extends javax.swing.JFrame {
         jLabel8.setText("TANGGAL PINJAM");
         jPanel1.add(jLabel8);
         jLabel8.setBounds(10, 360, 260, 20);
-        jPanel1.add(jTextField1);
-        jTextField1.setBounds(10, 330, 240, 30);
-        jPanel1.add(jTextField2);
-        jTextField2.setBounds(10, 60, 240, 30);
-        jPanel1.add(jTextField3);
-        jTextField3.setBounds(10, 110, 240, 30);
+        jPanel1.add(tbJudul);
+        tbJudul.setBounds(10, 330, 240, 30);
+        jPanel1.add(tbNo);
+        tbNo.setBounds(10, 60, 240, 30);
+        jPanel1.add(tbNama);
+        tbNama.setBounds(10, 110, 240, 30);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        tbAlamat.setColumns(20);
+        tbAlamat.setRows(5);
+        jScrollPane2.setViewportView(tbAlamat);
 
         jPanel1.add(jScrollPane2);
         jScrollPane2.setBounds(10, 160, 240, 110);
 
-        jRadioButton1.setBackground(null);
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jRadioButton1.setText("Buku Baru");
-        jPanel1.add(jRadioButton1);
-        jRadioButton1.setBounds(10, 290, 89, 23);
+        rbBaru.setBackground(null);
+        buttonGroup1.add(rbBaru);
+        rbBaru.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        rbBaru.setText("Buku Baru");
+        jPanel1.add(rbBaru);
+        rbBaru.setBounds(10, 290, 89, 23);
 
-        jRadioButton2.setBackground(null);
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jRadioButton2.setText("Buku Lama");
-        jPanel1.add(jRadioButton2);
-        jRadioButton2.setBounds(120, 290, 93, 23);
-        jPanel1.add(jDateChooser1);
-        jDateChooser1.setBounds(10, 380, 240, 30);
-        jPanel1.add(jDateChooser2);
-        jDateChooser2.setBounds(10, 430, 240, 30);
+        rbLama.setBackground(null);
+        buttonGroup1.add(rbLama);
+        rbLama.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        rbLama.setText("Buku Lama");
+        jPanel1.add(rbLama);
+        rbLama.setBounds(120, 290, 93, 23);
+        jPanel1.add(tgl_pinjam);
+        tgl_pinjam.setBounds(10, 380, 240, 30);
+        jPanel1.add(tgl_kembali);
+        tgl_kembali.setBounds(10, 430, 240, 30);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 110, 260, 490);
@@ -186,21 +188,26 @@ public class mainFrame extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(204, 204, 204));
         jPanel4.setLayout(null);
 
-        jButton1.setText("Print");
-        jPanel4.add(jButton1);
-        jButton1.setBounds(530, 10, 100, 30);
+        btPrint.setText("Print");
+        jPanel4.add(btPrint);
+        btPrint.setBounds(530, 10, 100, 30);
 
-        jButton2.setText("Save");
-        jPanel4.add(jButton2);
-        jButton2.setBounds(10, 10, 100, 30);
+        btSave.setText("Save");
+        btSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btSaveActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btSave);
+        btSave.setBounds(10, 10, 100, 30);
 
-        jButton3.setText("Clear");
-        jPanel4.add(jButton3);
-        jButton3.setBounds(180, 10, 100, 30);
+        btClear.setText("Clear");
+        jPanel4.add(btClear);
+        btClear.setBounds(180, 10, 100, 30);
 
-        jButton4.setText("Delete");
-        jPanel4.add(jButton4);
-        jButton4.setBounds(350, 10, 100, 30);
+        btDelete.setText("Delete");
+        jPanel4.add(btDelete);
+        btDelete.setBounds(350, 10, 100, 30);
 
         getContentPane().add(jPanel4);
         jPanel4.setBounds(270, 110, 640, 50);
@@ -208,6 +215,11 @@ public class mainFrame extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(928, 634));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveActionPerformed
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyy-MM-dd");
+        String tgl = 
+    }//GEN-LAST:event_btSaveActionPerformed
 
     /**
      * @param args the command line arguments
@@ -245,13 +257,11 @@ public class mainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btClear;
+    private javax.swing.JButton btDelete;
+    private javax.swing.JButton btPrint;
+    private javax.swing.JButton btSave;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -266,16 +276,18 @@ public class mainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JRadioButton rbBaru;
+    private javax.swing.JRadioButton rbLama;
+    private javax.swing.JTextArea tbAlamat;
+    private javax.swing.JTextField tbJudul;
+    private javax.swing.JTextField tbNama;
+    private javax.swing.JTextField tbNo;
+    private com.toedter.calendar.JDateChooser tgl_kembali;
+    private com.toedter.calendar.JDateChooser tgl_pinjam;
     // End of variables declaration//GEN-END:variables
 }
